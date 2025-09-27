@@ -110,7 +110,12 @@ export default function Root({
 				<Wrapper>
 					<Switch>
 						<Route path="/app" exact>
-							<Login urlProps={urlProps} />
+							<Login
+								urlProps={urlProps}
+								isBasicAuthenticationDisabled={
+									(globalState.is_basic_authentication_disabled as any) === 'true'
+								}
+							/>
 						</Route>
 						<Route path="/app/signup">
 							<SignUp urlProps={urlProps} />

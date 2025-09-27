@@ -72,6 +72,14 @@ func AppHandler() gin.HandlerFunc {
 			c.JSON(400, gin.H{"error": "failed to get organization logo"})
 			return
 		}
+
+		isBasicAuthDisabled, err := memorystore.Provider.GetBoolStoreEnvVariable(constants.EnvKeyDisableBasicAuthentication)
+		if err != nil {
+			log.Debug("Failed to get disable basic authentication value")
+			c.JSON(400, gin.H{"error": "failed to get disable basic authentication value"})
+			return
+		}
+
 		c.HTML(http.StatusOK, "app.tmpl", gin.H{
 			"data": map[string]interface{}{
 				"authorizerURL":    hostname,
@@ -80,6 +88,7 @@ func AppHandler() gin.HandlerFunc {
 				"state":            state,
 				"organizationName": orgName,
 				"organizationLogo": orgLogo,
+				"is_basic_authentication_disabled": isBasicAuthDisabled,
 			},
 		})
 	}

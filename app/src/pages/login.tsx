@@ -29,7 +29,13 @@ const FooterContent = styled.div`
 	margin-top: 10px;
 `;
 
-export default function Login({ urlProps }: { urlProps: Record<string, any> }) {
+export default function Login({
+	urlProps,
+	isBasicAuthenticationDisabled,
+}: {
+	urlProps: Record<string, any>;
+	isBasicAuthenticationDisabled: boolean;
+}) {
 	const { config } = useAuthorizer();
 	const [view, setView] = useState<VIEW_TYPES>(VIEW_TYPES.LOGIN);
 	return (
@@ -47,13 +53,15 @@ export default function Login({ urlProps }: { urlProps: Record<string, any> }) {
 						<AuthorizerMagicLinkLogin urlProps={urlProps} />
 					)}
 					<Footer>
-						<Link
-							to="#"
-							onClick={() => setView(VIEW_TYPES.FORGOT_PASSWORD)}
-							style={{ marginBottom: 10 }}
-						>
-							Forgot Password?
-						</Link>
+						{!isBasicAuthenticationDisabled && (
+							<Link
+								to="#"
+								onClick={() => setView(VIEW_TYPES.FORGOT_PASSWORD)}
+								style={{ marginBottom: 10 }}
+							>
+								Forgot Password?
+							</Link>
+						)}
 					</Footer>
 				</Fragment>
 			)}
